@@ -6,22 +6,34 @@ import regex as re
 import pickle
 import os
 
+#Function to divide a list into chunks of n-size
+def chunks(lst, n):
+    chunklist = [lst[i:i + n] for i in range(0, len(lst), n)]
+    return chunklist
+
 currentpath = os.getcwd()
 
 #Open the English baseline output
-with open(currentpath + '/baseline_WebNLG-2020-FORGe2020-12-2_submission.txt', 'rb') as f:
+with open(currentpath + '/test_triples_ru_en_utf8.txt', 'rb') as f:
     baselines = f.readlines()
 
 #Decode it and remove the \n's.
 baselines = [x.decode('utf-8') for x in baselines]
 baselines = [re.sub(r'\n', '', x) for x in baselines]
 
-translatedlines = []
+chunkedbaselines = chunks(baselines, 10)
 
-#Go over each line separately
-for sentence in baselines:
-    with open(currentpath + '/Originallines.pkl', 'rb') as f:
-        originallines = pickle.load(f)
+chunkedbaselinesstrings = ['\n\n'.join(x) for x in chunkedbaselines]
+
+#Go over each chunk separately
+for idx, sentence in enumerate(chunkedbaselinesstrings):
+    #See if this chunk has been translated already
+    if os.path.isfile(currentpath + '/Originallines.pkl'):
+        with open(currentpath + '/Originallines.pkl', 'rb') as f:
+            checklines = pickle.load(f)
+        if chunkedbaselines[idx] in checklines:
+            continue
+
     # Define text to translate
     text_to_translate = sentence
 
@@ -65,35 +77,44 @@ for sentence in baselines:
 
     # Display results
     print('_'*50)
-    print('Original    :', text_to_translate)
-    print('Translation :', content)
+    print('Original    :')
+    print(text_to_translate.split('\n\n'))
+    print('Translation :')
+    print(re.split(r'\r\n\r\n', content))
     print('_'*50)
-    translatedlines.append(content)
+    if len(text_to_translate.split('\n\n')) != len(re.split(r'\r\n\r\n', content)):
+        print('Uneven division text and translation')
+        exit(0)
 
     #Save the translated lines in one document
     if os.path.isfile(currentpath + '/Originallines.pkl'):
         with open(currentpath + '/Originallines.pkl', 'rb') as f:
             originallines = pickle.load(f)
 
-        originallines.append(text_to_translate)
+        originallines.append(chunkedbaselines[idx])
 
         with open(currentpath + '/Originallines.pkl', 'wb') as f:
             pickle.dump(originallines, f)
     else:
         with open(currentpath + '/Originallines.pkl', 'wb') as f:
-            pickle.dump([text_to_translate], f)
+            pickle.dump([chunkedbaselines[idx]], f)
 
     if os.path.isfile(currentpath + '/Translatedlines.pkl'):
         with open(currentpath + '/Translatedlines.pkl', 'rb') as f:
             testlines = pickle.load(f)
 
-        testlines.append(content)
+        testlines = testlines + content.split('\r\n\r\n')
 
         with open(currentpath + '/Translatedlines.pkl', 'wb') as f:
             pickle.dump(testlines, f)
     else:
         with open(currentpath + '/Translatedlines.pkl', 'wb') as f:
-            pickle.dump([content], f)
+            pickle.dump(content.split('\r\n\r\n'), f)
 
-print(translatedlines)
+with open(currentpath + '/Translatedlines.pkl', 'rb') as f:
+    alllines = pickle.load(f)
 
+totaltranslatedlines = '\n'.join(alllines)
+
+with open(currentpath + '/BaselineRussian.txt', 'wb') as f:
+    f.write(bytes(totaltranslatedlines, 'UTF-8'))
