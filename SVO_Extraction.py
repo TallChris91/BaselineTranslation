@@ -13,7 +13,7 @@ def camelCase(string):
 
 def Extract_SVO(inputfile, outputfile):
     currentpath = os.getcwd()
-    nlp = StanfordCoreNLP(currentpath + '/stanford-corenlp-4.1.0', memory='8g')
+    nlp = StanfordCoreNLP(currentpath + '/stanford-corenlp-4.2.0', memory='8g')
     # We will use OpenIE (Open Information Extraction)
     props={'annotators': 'tokenize, ssplit, pos, lemma, depparse, natlog, openie',
            'pipelineLanguage':'en',
