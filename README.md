@@ -15,7 +15,7 @@ The command to use the script is: ```python3 Translate_Baseline_Text2rdf.py <inp
 Make sure that the input file is in the same folder as the script.
 
 ## Baseline Script (SVO_Extraction.py)
-This script will extract SVO triples from an input text using `stanfordcorenlp`, and produce XML output as an [evaluation script](https://github.com/WebNLG/Evaluation/tree/main/automatic-evaluation/text-to-triples) compliant XML file. The script is based on an [SVO Extraction script](https://github.com/junhyeok-kim/TripletEmbeddingModel) by Junhyeok Kim.
+This script will extract SVO triples from an input text (the English test set, or the translated Russian test set) using `stanfordcorenlp`, and produce XML output as an [evaluation script](https://github.com/WebNLG/Evaluation/tree/main/automatic-evaluation/text-to-triples) compliant XML file. The script is based on an [SVO Extraction script](https://github.com/junhyeok-kim/TripletEmbeddingModel) by Junhyeok Kim.
 
 To run this script, you need the following libraries:
 
