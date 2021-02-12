@@ -11,7 +11,7 @@ This script needs the following libraries:
 - [Selenium](https://pypi.org/project/selenium/)
 - [Regex](https://pypi.org/project/regex/)
 
-The command to use the script is: ```python3 Translate_Baseline_Text2rdf.py <input filename> <output filename>```
+The command to use the script is: ```python3 Translate_Baseline_Text2rdf.py <input filename> <output filename>```.
 Make sure that the input file is in the same folder as the script.
 
 ## Baseline Script (SVO_Extraction.py)
@@ -24,4 +24,5 @@ To run this script, you need the following libraries:
 - [StanfordCoreNLP](https://github.com/Lynten/stanford-corenlp)
 - [LXML](https://pypi.org/project/lxml/)
 
-The command to use the script is: ```python3 SVO_Extraction.py <input filename> <output filename>```
+The command to use the script is: ```python3 SVO_Extraction.py <input filename> <output filename>```.
+Make sure that the input file, and the unzipped [CoreNLP](https://stanfordnlp.github.io/CoreNLP/) folder is in the same folder as the script.
