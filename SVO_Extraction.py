@@ -5,12 +5,14 @@ import os
 from stanfordcorenlp import StanfordCoreNLP
 from lxml import etree
 
+currentpath = os.getcwd()
+
 #Function to convert string to camelCase (for the predicates)
 def camelCase(string):
   string = re.sub(r"(_|-)+", " ", string).title().replace(" ", "")
   return string[0].lower() + string[1:]
 
-nlp = StanfordCoreNLP('/vol/tensusers/cvdlee/WebNLG/stanford-corenlp-4.1.0', memory='8g')
+nlp = StanfordCoreNLP(currentpath + '/stanford-corenlp-4.1.0', memory='8g')
 # We will use OpenIE (Open Information Extraction)
 props={'annotators': 'tokenize, ssplit, pos, lemma, depparse, natlog, openie',
        'pipelineLanguage':'en',
@@ -22,7 +24,7 @@ props={'annotators': 'tokenize, ssplit, pos, lemma, depparse, natlog, openie',
        }
 
 #Use the translated sentences from the Russian test set
-with open('/home/cvdlee/BaselineRussian_text2rdf.txt', 'rb') as f:
+with open(currentpath + '/BaselineRussian_text2rdf.txt', 'rb') as f:
     test = f.readlines()
 
 
@@ -65,5 +67,5 @@ for idx, text in enumerate(newtext):
 
 #And save the XML to a file.
 benchmarkelement = etree.tostring(benchmarkelement, encoding="utf-8", xml_declaration=False, pretty_print=True)
-with open('/home/cvdlee/Baseline_Russian.xml', 'wb') as f:
+with open(currentpath + '/Baseline_Russian.xml', 'wb') as f:
     f.write(benchmarkelement)
