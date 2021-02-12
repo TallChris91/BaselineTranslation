@@ -1,6 +1,6 @@
 # WebNLG Challenge 2020: Translation and Baseline Generation for Text-to-RDF
 
-The translation script for the Russion baseline (for the Russian Text-to-Triples task), and the triple extraction script for for the [WebNLG Challenge 2020](https://webnlg-challenge.loria.fr/challenge_2020/).  
+The translation script for the Russion baseline (for the Russian Text-to-Triples task), and the triple extraction script for the [WebNLG Challenge 2020](https://webnlg-challenge.loria.fr/challenge_2020/).  
 
 ## Translation Script (Translate_Baseline_Text2rdf.py)
 This script will translate the Russian test set to English, which is necessary for the subsequent Triple Extraction task, as the triple extraction tool only works for English. Translation is done using [DeepL](https://www.deepl.com/translator/).
